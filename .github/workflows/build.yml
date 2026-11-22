@@ -19,7 +19,7 @@ jobs:
           mkdir -p dist
           GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o dist/tailcat-windows-amd64.exe ./cmd/tailcat
           GOOS=linux GOARCH=arm GOARM=7 go build -trimpath -ldflags "-s -w" -o dist/tailcat-linux-armv7 ./cmd/tailcat
-      - uses: actions/upload-artifact@deeb19488631cdd4696733e72ca87bbc0d9830a3 # v7.0.0
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: tailcat-builds
           path: dist/
