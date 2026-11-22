@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+      - name: Build
+        run: |
+          mkdir -p dist
+          GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o dist/tailcat-windows-amd64.exe ./cmd/tailcat
+          GOOS=linux GOARCH=arm GOARM=7 go build -trimpath -ldflags "-s -w" -o dist/tailcat-linux-armv7 ./cmd/tailcat
+      - uses: actions/upload-artifact@deeb19488631cdd4696733e72ca87bbc0d9830a3 # v7.0.0
+        with:
+          name: tailcat-builds
+          path: dist/
